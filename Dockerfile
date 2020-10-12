@@ -10,6 +10,8 @@ COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 RUN apt update && apt full-upgrade -y
 RUN apt install -y build-essential git bash-completion fish zsh tmux vim neovim sudo \
     curl wget
+# llvm toolchain
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 RUN apt clean
 
 COPY new_user.sh .
@@ -28,6 +30,8 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | b
 RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript'
 
 # rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
+RUN /usr/bin/fish -c 'addpath ~/.cargo/bin && rustup completion fish > ~/.config/fish/completions/rustup.fish'
 
 # go
 
