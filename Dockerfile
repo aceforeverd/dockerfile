@@ -14,14 +14,14 @@ RUN apt clean
 
 COPY new_user.sh .
 RUN /bin/bash new_user.sh "$_USER" "$_PASSWD"
+RUN rm new_user.sh
 
 USER $_USER
 WORKDIR /home/$_USER
 
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles
 RUN /bin/bash .dotfiles/setup.sh
-
-RUN cat .dotfiles/.bashrc
+RUN /usr/bin/fish -c fisher
 
 # nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
