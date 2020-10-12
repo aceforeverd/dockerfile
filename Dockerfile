@@ -31,7 +31,7 @@ RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm inst
 
 # rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
-RUN /usr/bin/fish -c 'addpath ~/.cargo/bin && rustup completion fish > ~/.config/fish/completions/rustup.fish'
+RUN /usr/bin/fish -c 'addpaths ~/.cargo/bin && rustup completion fish > ~/.config/fish/completions/rustup.fish'
 
 # go
 
