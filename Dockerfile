@@ -9,7 +9,7 @@ RUN apt update && apt install -y apt-transport-https ca-certificates
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 RUN apt update && apt full-upgrade -y
 RUN apt install -y build-essential git bash-completion fish zsh tmux vim neovim sudo \
-    curl wget
+    curl wget lsb-release software-properties-common
 # llvm toolchain
 RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 RUN apt clean
