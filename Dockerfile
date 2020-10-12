@@ -21,7 +21,7 @@ WORKDIR /home/$_USER
 
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles
 RUN /bin/bash .dotfiles/setup.sh
-RUN /usr/bin/fish -c fisher
+RUN /usr/bin/fish -c 'echo setup fisher'
 
 # nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
