@@ -5,19 +5,23 @@ FROM debian:buster
 ARG _USER
 ARG _PASSWD
 
-RUN apt update && apt install -y apt-transport-https ca-certificates
-COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
-RUN apt update \
-    && apt full-upgrade -y \
-    && apt install -y build-essential git bash-completion fish zsh tmux vim neovim sudo \
-        curl wget lsb-release software-properties-common
+RUN apt update && apt full-upgrade -y \
+    && apt install -y build-essential git bash-completion fish zsh tmux vim python-neovim python3-neovim sudo \
+        curl wget lsb-release software-properties-common apt-transport-https ca-certificates
 
 # llvm toolchain
-RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-RUN apt clean
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt clean
+
+COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
 COPY new_user.sh .
-RUN ./new_user.sh "$_USER" "$_PASSWD" && rm -f new_user.sh
+RUN ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
+
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+    && tar xvf nvim-linux64.tar.gz \
+    && cd nvim-linux64 \
+    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
+    && rm -rf nvim*
 
 USER $_USER
 WORKDIR /home/$_USER
