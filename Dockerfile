@@ -17,7 +17,7 @@ RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 RUN apt clean
 
 COPY new_user.sh .
-RUN new_user.sh "$_USER" "$_PASSWD" && rm -f new_user.sh
+RUN ./new_user.sh "$_USER" "$_PASSWD" && rm -f new_user.sh
 
 USER $_USER
 WORKDIR /home/$_USER
