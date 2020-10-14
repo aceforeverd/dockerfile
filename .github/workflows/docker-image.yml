@@ -18,10 +18,7 @@ jobs:
       run: |
         tag=$(date +%s)
         docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$tag
-        id=$(docker run -i -d acefoeverd-dockerfile:$tag)
-        docker exec -i "$id" /usr/bin/fish
-        nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!'
-        cat checkhealth.info
-        exit
+        id=$(docker run -d acefoeverd-dockerfile:$tag)
+        docker exec "$id" "nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!' && cat checkhealth.info"
         docker stop "$id"
 
