@@ -18,8 +18,9 @@ RUN apt update && apt full-upgrade -y \
     && locale-gen \
     && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
     && tar xvf nvim-linux64.tar.gz \
-    && cd nvim-linux64 \
+    && pushd nvim-linux64 \
     && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
+    && popd \
     && rm -rf nvim* \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh 
     
