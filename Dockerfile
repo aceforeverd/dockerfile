@@ -45,8 +45,8 @@ RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm inst
 
 # pyenv and pynvim
 RUN  git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
-     && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish; pyenv install 3.9.0" \
-     && fish -c "python3 -m pip install --upgrade pip; pip3 install --upgrade pynvim msgpack"
+     && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish" \
+     && fish -c "pyenv install 3.9.0; pyenv global 3.9.0; pip3 install --upgrade pynvim msgpack"
 
 # rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
