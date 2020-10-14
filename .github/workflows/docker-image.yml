@@ -7,9 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +16,7 @@ jobs:
       run: |
         tag=$(date +%s)
         docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$tag
-        id=$(docker run -d acefoeverd-dockerfile:$tag)
-        docker exec "$id" "nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!' && cat checkhealth.info"
-        docker stop "$id"
+        docker run -name my-container-$tag -d acefoeverd-dockerfile:$tag
+        docker exec my-container-$tag "nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!' && cat checkhealth.info"
+        docker stop my-container-$tag
 
