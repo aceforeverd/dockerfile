@@ -49,7 +49,7 @@ RUN  git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
      && fish -c "pyenv install 3.9.0; pyenv global 3.9.0; pip3 install --upgrade pynvim msgpack"
 
 # rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src
 RUN /usr/bin/fish -c 'addpaths ~/.cargo/bin && rustup completions fish > ~/.config/fish/completions/rustup.fish'
 
 # go
