@@ -7,12 +7,16 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$(date +%s)
+      run: |
+        tag=$(date +%s)
+        docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$tag
+        # docker run --name my-container-$tag -d acefoeverd-dockerfile:$tag
+        # docker exec my-container-$tag "nvim --headless -c 'checkhealth' -c 'saveas! checkhealth.info' -c 'qa!' && cat checkhealth.info"
+        # docker stop my-container-$tag
+

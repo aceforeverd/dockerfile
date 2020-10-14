@@ -1,44 +1,50 @@
 ARG _USER=ace
 ARG _PASSWD=helloworld
 
-FROM debian:buster
+FROM debian:stable
 ARG _USER
 ARG _PASSWD
 
-RUN apt update && apt install -y apt-transport-https ca-certificates
-COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
-RUN apt update \
-    && apt full-upgrade -y \
-    && apt install -y build-essential git bash-completion fish zsh tmux vim neovim sudo \
-        curl wget lsb-release software-properties-common
-
-# llvm toolchain
-RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-RUN apt clean
-
 COPY new_user.sh .
-RUN ./new_user.sh "$_USER" "$_PASSWD" && rm -f new_user.sh
+# deps, llvm, locale, neovim
+RUN apt update && apt full-upgrade -y \
+    && apt install -y build-essential git bash-completion fish zsh tmux vim sudo \
+        curl wget lsb-release software-properties-common python-pip \
+        apt-transport-https ca-certificates universal-ctags global locales \
+        libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
+        xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
+    && bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt clean \
+    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen \
+    && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+    && tar xvf nvim-linux64.tar.gz \
+    && cd nvim-linux64 \
+    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
+    && cd .. \
+    && rm -rf nvim* \
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh 
+    
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
 USER $_USER
 WORKDIR /home/$_USER
 
-# dotfiles
+# dotfiles, nvm, python & pynvim, rust, vimrc
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
-        && .dotfiles/setup.sh \
-        && /usr/bin/fish -c 'echo setup fisher'
-
-# nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
-RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript'
-
-# rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
-RUN /usr/bin/fish -c 'addpaths ~/.cargo/bin && rustup completions fish > ~/.config/fish/completions/rustup.fish'
-
-# go
-
-# vimrc
-RUN mkdir -p "$HOME/.config/nvim" \
+    && .dotfiles/setup.sh \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash \
+    && /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript yarn' \
+    && git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
+    && mkdir -p "$HOME/.ssh" \
+    && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish" \
+    && fish -c "pyenv install 3.9.0; pyenv global 3.9.0; pip3 install --upgrade pynvim msgpack; pip2 install --upgrade pynvim" \
+    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
+    && /usr/bin/fish -c 'addpaths ~/.cargo/bin && rustup completions fish > ~/.config/fish/completions/rustup.fish' \
+    && mkdir -p "$HOME/.config/nvim" \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
     && /bin/bash "$HOME/.config/nvim/scripts/setup.sh"
 
