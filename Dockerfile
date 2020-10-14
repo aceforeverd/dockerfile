@@ -1,7 +1,7 @@
 ARG _USER=ace
 ARG _PASSWD=helloworld
 
-FROM debian:buster
+FROM debian:stable
 ARG _USER
 ARG _PASSWD
 
@@ -9,6 +9,8 @@ RUN apt update && apt full-upgrade -y \
     && apt install -y build-essential git bash-completion fish zsh tmux vim sudo \
         curl wget lsb-release software-properties-common \
         apt-transport-https ca-certificates universal-ctags global locales \
+        libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
+        xz-utils tk-dev libffi-dev liblzma-dev python-openssl
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
 ENV LANG en_US.UTF-8
