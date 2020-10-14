@@ -6,8 +6,14 @@ ARG _USER
 ARG _PASSWD
 
 RUN apt update && apt full-upgrade -y \
-    && apt install -y build-essential git bash-completion fish zsh tmux vim python-neovim python3-neovim sudo \
-        curl wget lsb-release software-properties-common apt-transport-https ca-certificates
+    && apt install -y build-essential git bash-completion fish zsh tmux vim sudo \
+        curl wget lsb-release software-properties-common \
+        apt-transport-https ca-certificates universal-ctags global locales \
+    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # llvm toolchain
 RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt clean
@@ -33,7 +39,12 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
 
 # nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
-RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript'
+RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript yarn'
+
+# pyenv and pynvim
+RUN  git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
+     && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish; pyenv install 3.9.0" \
+     && fish -c "python3 -m pip install --upgrade pip; pip3 install --upgrade pynvim msgpack"
 
 # rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly  -c rust-analysis rust-src
