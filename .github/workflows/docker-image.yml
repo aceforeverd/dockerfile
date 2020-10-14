@@ -15,4 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$(date +%s)
+      run: |
+        tag=$(data +%s)
+        docker build --no-cache . --file Dockerfile --tag acefoeverd-dockerfile:$tag
+        id=$(docker run -it -d acefoeverd-dockerfile:$tag)
+        docker exec -it "$id" /usr/bin/fish
+        nvim --headless -c 'checkhealth' -c 'saveas checkhealth.info' -c 'qa!'
+        cat checkhealth.info
+
