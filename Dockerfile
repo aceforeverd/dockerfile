@@ -5,7 +5,8 @@ FROM debian:stable
 ARG _USER
 ARG _PASSWD
 
-# deps, llvm and locale
+COPY new_user.sh .
+# deps, llvm, locale, neovim
 RUN apt update && apt full-upgrade -y \
     && apt install -y build-essential git bash-completion fish zsh tmux vim sudo \
         curl wget lsb-release software-properties-common python-pip \
@@ -14,22 +15,19 @@ RUN apt update && apt full-upgrade -y \
         xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
     && bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt clean \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-    && locale-gen
-
+    && locale-gen \
+    && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+    && tar xvf nvim-linux64.tar.gz \
+    && cd nvim-linux64 \
+    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
+    && rm -rf nvim* \
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh 
+    
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
-COPY new_user.sh .
-# new user and neovim
-RUN ./new_user.sh "$_USER" "$_PASSWD" \
-    && rm new_user.sh \
-    && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
-    && tar xvf nvim-linux64.tar.gz \
-    && cd nvim-linux64 \
-    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
-    && rm -rf nvim*
 
 USER $_USER
 WORKDIR /home/$_USER
