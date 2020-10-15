@@ -37,7 +37,6 @@ WORKDIR /home/$_USER
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash \
-    && /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript yarn' \
     && git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
     && mkdir -p "$HOME/.ssh" \
     && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish" \
@@ -46,6 +45,6 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && /usr/bin/fish -c 'addpaths ~/.cargo/bin && rustup completions fish > ~/.config/fish/completions/rustup.fish' \
     && mkdir -p "$HOME/.config/nvim" \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
-    && /bin/bash "$HOME/.config/nvim/scripts/setup.sh"
+    && /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/erbium && npm install -g neovim typescript yarn && .config/nvim/scripts/setup.sh"
 
 ENTRYPOINT ["/usr/bin/fish"]
