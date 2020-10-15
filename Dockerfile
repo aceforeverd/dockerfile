@@ -9,7 +9,7 @@ COPY new_user.sh .
 # deps, llvm, locale, neovim
 RUN apt update && apt full-upgrade -y \
     && apt install -y build-essential git bash-completion fish zsh tmux vim sudo \
-        curl wget lsb-release software-properties-common python-pip \
+        curl wget lsb-release software-properties-common python-pip procps \
         apt-transport-https ca-certificates universal-ctags global locales \
         libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
         xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
@@ -19,7 +19,7 @@ RUN apt update && apt full-upgrade -y \
     && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
     && tar xvf nvim-linux64.tar.gz \
     && cd nvim-linux64 \
-    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; \
+    && find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null \
     && cd .. \
     && rm -rf nvim* \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
