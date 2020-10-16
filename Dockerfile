@@ -5,6 +5,8 @@ FROM debian:stable
 ARG _USER
 ARG _PASSWD
 
+LABEL org.opencontainers.image.source https://github.com/aceforeverd/dockfile
+
 COPY new_user.sh .
 # deps, llvm, locale, neovim
 RUN apt update && apt full-upgrade -y \
