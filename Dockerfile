@@ -5,7 +5,7 @@ FROM debian:stable
 ARG _USER
 ARG _PASSWD
 
-LABEL org.opencontainers.image.source https://github.com/aceforeverd/dockfile
+LABEL org.opencontainers.image.source https://github.com/aceforeverd/dockerfile
 
 COPY new_user.sh .
 # deps, llvm, locale, neovim
