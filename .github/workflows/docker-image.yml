@@ -28,6 +28,7 @@ jobs:
           docker build --no-cache . --file ${{ matrix.dockerfile }} --tag ${{ matrix.image }}
 
       - name: Login to github docker registry
+        if: github.event_name == 'push'
         run: |
           echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
