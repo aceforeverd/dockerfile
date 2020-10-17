@@ -33,7 +33,6 @@ ENV LC_ALL en_US.UTF-8
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
 USER $_USER
-WORKDIR /home/$_USER
 
 # dotfiles, nvm, python & pynvim, rust, vimrc
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
