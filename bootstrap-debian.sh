@@ -56,6 +56,7 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src
 
 mkdir -p "$HOME/.ssh"
+mkdir -p "$HOME/.config/fish/completions"
 
 # setup pyenv and rustup in fish
 fish -c "addpaths ~/.pyenv/bin;
