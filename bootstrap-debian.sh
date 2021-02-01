@@ -59,14 +59,14 @@ mkdir -p "$HOME/.ssh"
 mkdir -p "$HOME/.config/fish/completions"
 
 # setup pyenv and rustup in fish
-fish -c "addpaths ~/.pyenv/bin;
+fish -c "fish_user_paths_add ~/.pyenv/bin;
     set -Ux PYENV_ROOT ~/.pyenv
     echo 'pyenv init - | source' >> ~/.config/fish/config.fish
     pyenv install $PY3_VER
     pyenv global $PY3_VER
     pip3 install --upgrade pynvim msgpack vim-vint
     pip2 install --upgrade pynvim
-    addpaths ~/.cargo/bin
+    fish_user_paths_add ~/.cargo/bin
     rustup completions fish > ~/.config/fish/completions/rustup.fish"
 
 mkdir -p "$HOME/.config/nvim"
