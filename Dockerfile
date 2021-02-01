@@ -41,10 +41,10 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
     && git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
     && mkdir -p "$HOME/.ssh" \
-    && fish -c "addpaths ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' > ~/.config/fish/config.fish" \
+    && fish -c "fish_user_path_add ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' >> ~/.config/fish/config.fish" \
     && fish -c "pyenv install 3.9.1; pyenv global 3.9.1; pip3 install --upgrade pynvim msgpack; pip2 install --upgrade pynvim" \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
-    && /usr/bin/fish -c 'addpaths ~/.cargo/bin && mkdir -p ~/.config/fish/completions && rustup completions fish > ~/.config/fish/completions/rustup.fish' \
+    && /usr/bin/fish -c 'fish_user_path_add ~/.cargo/bin && mkdir -p ~/.config/fish/completions && rustup completions fish > ~/.config/fish/completions/rustup.fish' \
     && mkdir -p "$HOME/.config/nvim" \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
     && /bin/bash -c 'source $HOME/.nvm/nvm.sh && nvm install lts/fermium && npm install -g neovim typescript yarn && .config/nvim/scripts/setup.sh'

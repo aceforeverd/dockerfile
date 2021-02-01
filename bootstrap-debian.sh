@@ -61,7 +61,7 @@ mkdir -p "$HOME/.config/fish/completions"
 # setup pyenv and rustup in fish
 fish -c "addpaths ~/.pyenv/bin;
     set -Ux PYENV_ROOT ~/.pyenv
-    echo 'pyenv init - | source' > ~/.config/fish/config.fish
+    echo 'pyenv init - | source' >> ~/.config/fish/config.fish
     pyenv install $PY3_VER
     pyenv global $PY3_VER
     pip3 install --upgrade pynvim msgpack vim-vint
