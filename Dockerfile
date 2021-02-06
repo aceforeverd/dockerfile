@@ -24,7 +24,10 @@ RUN apt update && apt full-upgrade -y \
     && find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null \
     && cd .. \
     && rm -rf nvim* \
-    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
+    && wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz \
+    && tar xvf Python-3.9.1.tgz \
+    && cd Python-3.9.1 && ./configure --enable-optimizations && make && make test && make install && cd .. && rm -rf Python-3.9.1*
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -39,9 +42,6 @@ WORKDIR /home/$_USER
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
-    && wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz \
-    && tar xvf Python-3.9.1.tgz \
-    && cd Python-3.9.1 && ./configure --enable-optimizations && make && make test && make install && cd .. && rm -rf Python-3.9.1* \
     && mkdir -p "$HOME/.ssh" \
     && /usr/bin/fish -c "fisher update; pip3 install --upgrade pynvim msgpack" \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
