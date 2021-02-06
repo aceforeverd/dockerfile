@@ -43,7 +43,8 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
     && mkdir -p "$HOME/.ssh" \
-    && /usr/bin/fish -c "fisher update; pip3 install --upgrade pynvim msgpack" \
+    $$ curl -sL https://git.io/fisher > ~/.config/fish/functions/fisher.fish \
+    && /usr/bin/fish -c "fisher update; /usr/local/bin/python3.9 -m pip install -U --user pip pynvim msgpack" \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add $HOME/.cargo/bin; and mkdir -p $HOME/.config/fish/completions; and rustup completions fish > $HOME/.config/fish/completions/rustup.fish" \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
