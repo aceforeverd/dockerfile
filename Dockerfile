@@ -47,8 +47,8 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && /usr/bin/fish -c "fisher update; /usr/local/bin/python3.9 -m pip install -U --user pip pynvim msgpack" \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
-    # && mkdir -p ~/.config/fish/completions \
-    # && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
+    && mkdir -p ~/.config/fish/completions \
+    && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
     && /usr/bin/fish -c "nvm install lts/fermium;and npm install -g neovim typescript yarn; and $HOME/.config/nvim/scripts/setup.sh"
 
