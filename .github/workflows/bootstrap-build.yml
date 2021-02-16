@@ -32,4 +32,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: run script
-        run: ./bootstrap-debian.sh
+        run: bash -x bootstrap-debian.sh
