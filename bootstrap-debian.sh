@@ -63,8 +63,9 @@ curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.f
 fish -c "fisher update
     fish_user_paths_add ~/.pyenv/bin
     set -Ux PYENV_ROOT ~/.pyenv
-    echo 'pyenv init - | source' >> ~/.config/fish/config.fish
-    pyenv install $PY3_VER
+    echo 'pyenv init - | source' >> ~/.config/fish/config.fish"
+
+fish -c "pyenv install $PY3_VER
     pyenv global $PY3_VER
     python3 -m pip install --upgrade pynvim msgpack vim-vint
     pip2 install --upgrade pynvim
