@@ -57,9 +57,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --defaul
 
 mkdir -p "$HOME/.ssh"
 mkdir -p "$HOME/.config/fish/completions"
+curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish
 
 # setup pyenv and rustup in fish
-fish -i -c "fisher update
+fish -c "fisher update
     fish_user_paths_add ~/.pyenv/bin
     set -Ux PYENV_ROOT ~/.pyenv
     echo 'pyenv init - | source' >> ~/.config/fish/config.fish
@@ -72,6 +73,6 @@ fish -i -c "fisher update
 
 git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 
-fish -i -c "nvm install lts/fermium; npm install -g neovim bash-language-server"
+fish -c "nvm install lts/fermium; npm install -g neovim bash-language-server"
 
 bash "$HOME/.config/nvim/scripts/setup.sh"

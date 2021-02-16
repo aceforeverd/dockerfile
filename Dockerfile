@@ -42,7 +42,8 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && mkdir -p "$HOME/.ssh" \
     && git clone https://github.com/pyenv/pyenv.git ~/.pyenv \
     && /usr/bin/fish -c "fish_user_paths_add ~/.pyenv/bin; set -Ux PYENV_ROOT ~/.pyenv; echo 'pyenv init - | source' >> ~/.config/fish/config.fish" \
-    && /usr/bin/fish -i -c "fisher update; pyenv install 3.9.1; pyenv global 3.9.1; python3 -m pip install -U --user pip pynvim msgpack" \
+    && curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish \
+    && /usr/bin/fish -c "fisher update; pyenv install 3.9.1; pyenv global 3.9.1; python3 -m pip install -U --user pip pynvim msgpack" \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
     && mkdir -p ~/.config/fish/completions \
