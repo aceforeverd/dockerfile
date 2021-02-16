@@ -75,4 +75,4 @@ git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 source "$HOME/.nvm/nvm.sh"
 nvm install lts/fermium
 npm install -g neovim bash-language-server
-.config/nvim/scripts/setup.sh
+$HOME/.config/nvim/scripts/setup.sh
