@@ -59,7 +59,8 @@ mkdir -p "$HOME/.ssh"
 mkdir -p "$HOME/.config/fish/completions"
 
 # setup pyenv and rustup in fish
-fish -c "fish_user_paths_add ~/.pyenv/bin;
+fish -c "fisher update
+    fish_user_paths_add ~/.pyenv/bin
     set -Ux PYENV_ROOT ~/.pyenv
     echo 'pyenv init - | source' >> ~/.config/fish/config.fish
     pyenv install $PY3_VER
@@ -69,10 +70,9 @@ fish -c "fish_user_paths_add ~/.pyenv/bin;
     fish_user_paths_add ~/.cargo/bin
     rustup completions fish > ~/.config/fish/completions/rustup.fish"
 
-mkdir -p "$HOME/.config/nvim"
 git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 
 source "$HOME/.nvm/nvm.sh"
 nvm install lts/fermium
-npm install -g neovim typescript yarn bash-language-server eslint
+npm install -g neovim bash-language-server
 .config/nvim/scripts/setup.sh
