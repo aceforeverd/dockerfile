@@ -47,8 +47,8 @@ find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null
 cd ..
 rm -rf nvim*
 
-git clone https://github.com/aceforeverd/dotfiles.git .dotfiles
-.dotfiles/setup.sh
+git clone https://github.com/aceforeverd/dotfiles.git "$HOME/.dotfiles"
+bash "$HOME/.dotfiles/setup.sh"
 
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VER/install.sh" | bash
 
@@ -57,22 +57,23 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --defaul
 
 mkdir -p "$HOME/.ssh"
 mkdir -p "$HOME/.config/fish/completions"
+curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish
 
 # setup pyenv and rustup in fish
-fish -c "fish_user_paths_add ~/.pyenv/bin;
+fish -c "fisher update
+    fish_user_paths_add ~/.pyenv/bin
     set -Ux PYENV_ROOT ~/.pyenv
-    echo 'pyenv init - | source' >> ~/.config/fish/config.fish
-    pyenv install $PY3_VER
+    echo 'pyenv init - | source' >> ~/.config/fish/config.fish"
+
+fish -c "pyenv install $PY3_VER
     pyenv global $PY3_VER
-    pip3 install --upgrade pynvim msgpack vim-vint
+    python3 -m pip install --upgrade pynvim msgpack vim-vint
     pip2 install --upgrade pynvim
     fish_user_paths_add ~/.cargo/bin
     rustup completions fish > ~/.config/fish/completions/rustup.fish"
 
-mkdir -p "$HOME/.config/nvim"
 git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 
-source "$HOME/.nvm/nvm.sh"
-nvm install lts/fermium
-npm install -g neovim typescript yarn bash-language-server eslint
-.config/nvim/scripts/setup.sh
+fish -c "nvm install lts/fermium; npm install -g neovim bash-language-server"
+
+bash "$HOME/.config/nvim/scripts/setup.sh"
