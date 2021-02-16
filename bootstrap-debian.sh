@@ -47,8 +47,8 @@ find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null
 cd ..
 rm -rf nvim*
 
-git clone https://github.com/aceforeverd/dotfiles.git .dotfiles
-.dotfiles/setup.sh
+git clone https://github.com/aceforeverd/dotfiles.git "$HOME/.dotfiles"
+bash "$HOME/.dotfiles/setup.sh"
 
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VER/install.sh" | bash
 
@@ -75,4 +75,4 @@ git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 source "$HOME/.nvm/nvm.sh"
 nvm install lts/fermium
 npm install -g neovim bash-language-server
-$HOME/.config/nvim/scripts/setup.sh
+bash "$HOME/.config/nvim/scripts/setup.sh"
