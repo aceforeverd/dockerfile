@@ -1,6 +1,6 @@
 name: linters
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   push:
     branches:
@@ -23,9 +23,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - name: hadolint
-        uses: burdzwastaken/hadolint-action@master
+        uses: reviewdog/action-hadolint@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HADOLINT_ACTION_DOCKERFILE_FOLDER: .
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review

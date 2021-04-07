@@ -21,5 +21,5 @@ set -o nounset
 USER=$1
 PASSWORD=$2
 
-useradd -m -s /usr/bin/fish "$USER" -p "$(openssl passwd -crypt "$PASSWORD")"
+useradd -m -U -s /usr/bin/fish "$USER" -p "$(openssl passwd -crypt "$PASSWORD")"
 usermod -aG sudo "$USER"
