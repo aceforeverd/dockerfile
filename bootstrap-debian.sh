@@ -77,3 +77,5 @@ git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim"
 fish -c "nvm install lts/fermium; npm install -g neovim bash-language-server"
 
 bash "$HOME/.config/nvim/scripts/setup.sh"
+
+rm -rf "$HOME/.cache" "$HOME/.npm"
