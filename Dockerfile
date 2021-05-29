@@ -18,6 +18,7 @@ RUN apt update && apt full-upgrade -y \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage \
+    && chmod +x nvim.appimage \
     && ./nvim.appimage --appimage-extract \
     && rm nvim.appimage \
     && cd squashfs-root/usr \

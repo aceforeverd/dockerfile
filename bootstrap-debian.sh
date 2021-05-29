@@ -41,6 +41,7 @@ NVM_VER=$(get_latest_release_version nvm-sh/nvm)
 PY3_VER=3.9.1
 
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+chmod +x nvim.appimage
 ./nvim.appimage --appimage-extract
 rm nvim.appimage
 cd squashfs-root/usr
