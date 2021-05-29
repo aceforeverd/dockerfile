@@ -17,12 +17,13 @@ RUN apt update && apt full-upgrade -y \
         xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
-    && curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
-    && tar xf nvim-linux64.tar.gz \
-    && cd nvim-linux64 \
+    && curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage \
+    && ./nvim.appimage --appimage-extract \
+    && rm nvim.appimage \
+    && cd squashfs-root/usr \
     && find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null \
-    && cd .. \
-    && rm -rf nvim* \
+    && cd ../.. \
+    && rm -r squashfs \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
 
 ENV LANG en_US.UTF-8

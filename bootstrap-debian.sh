@@ -40,12 +40,13 @@ locale-gen
 NVM_VER=$(get_latest_release_version nvm-sh/nvm)
 PY3_VER=3.9.1
 
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-tar xf nvim-linux64.tar.gz
-cd nvim-linux64
+curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+./nvim.appimage --appimage-extract
+rm nvim.appimage
+cd squashfs-root/usr
 find . -type f -exec install -D -m 755 {} /usr/local/{} \; > /dev/null
-cd ..
-rm -rf nvim*
+cd ../..
+rm -rf squashfs
 
 git clone https://github.com/aceforeverd/dotfiles.git "$HOME/.dotfiles"
 bash "$HOME/.dotfiles/setup.sh"
