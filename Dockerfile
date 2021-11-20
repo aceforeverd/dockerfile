@@ -15,10 +15,11 @@ RUN apt-get update && apt-get full-upgrade -y \
         curl wget lsb-release software-properties-common python3-pip procps \
         apt-transport-https ca-certificates universal-ctags global locales \
         libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
+        xz-utils tk-dev libffi-dev liblzma-dev python3-openssl cmake ninja-build gettext \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
-    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
+    && apt clean
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
