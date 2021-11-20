@@ -12,10 +12,10 @@ COPY new_user.sh .
 # deps, llvm, locale, neovim
 RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install -y build-essential git bash-completion fish zsh tmux vim sudo \
-        curl wget lsb-release software-properties-common python-pip procps \
+        curl wget lsb-release software-properties-common python3-pip procps \
         apt-transport-https ca-certificates universal-ctags global locales \
         libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
+        xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
