@@ -44,7 +44,8 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
     && mkdir -p "$HOME/.ssh" \
     && curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish \
-    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly -c rust-src \
+    && /usr/bin/fish -c 'fisher update' \
+    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
