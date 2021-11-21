@@ -49,7 +49,7 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && /usr/bin/fish -c 'fisher update' \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
-    && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache' \
+    && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache fd-find' \
     && /usr/bin/fish -c 'cargo cache -a' \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
