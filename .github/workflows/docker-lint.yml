@@ -2,11 +2,6 @@ name: linters
 
 # Controls when the action will run.
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - v*
   pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
