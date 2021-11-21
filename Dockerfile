@@ -28,9 +28,9 @@ ENV LC_ALL en_US.UTF-8
 
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # this add repository
-RUN bash -c "$(wget --progress=dot:giga -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3047
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install neovim nightly
 RUN git clone https://github.com/neovim/neovim neovim \
@@ -40,10 +40,10 @@ USER $_USER
 WORKDIR /home/$_USER
 
 # dotfiles, nvm, rust, vimrc
-# hadolint ignore=DL4001
+# hadolint ignore=DL4001,DL4006
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
     && mkdir -p "$HOME/.ssh" \
     && curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish \
     && /usr/bin/fish -c 'fisher update' \
