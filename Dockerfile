@@ -15,7 +15,7 @@ RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y build-essential git bash-completion fish zsh tmux vim sudo \
         curl wget lsb-release software-properties-common python3-pip procps \
         apt-transport-https ca-certificates universal-ctags global locales gnupg \
-        sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-confg autoconf automake\
+        sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
