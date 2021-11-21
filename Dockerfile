@@ -49,10 +49,12 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && /usr/bin/fish -c 'fisher update' \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
+    && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache' \
+    && /usr/bin/fish -c 'cargo cache -a' \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
-    && /usr/bin/fish -c "nvm install lts/gallium;and npm install -g neovim typescript yarn; and $HOME/.config/nvim/scripts/setup.sh" \
+    && /usr/bin/fish -c "nvm install lts/gallium;and npm install -g yarn; and $HOME/.config/nvim/scripts/setup.sh" \
     && rm -rf "$HOME/.cache" "$HOME/.npm"
 
 ENTRYPOINT ["/usr/bin/fish"]
