@@ -28,7 +28,7 @@ ENV LC_ALL en_US.UTF-8
 
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
-SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 # this add repository
 RUN bash -c "$(wget --progress=dot:giga -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
 
