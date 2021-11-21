@@ -15,8 +15,7 @@ RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y build-essential git bash-completion fish zsh tmux vim sudo \
         curl wget lsb-release software-properties-common python3-pip procps \
         apt-transport-https ca-certificates universal-ctags global locales \
-        libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev \
-        xz-utils tk-dev libffi-dev liblzma-dev python3-openssl cmake ninja-build gettext libtool-bin unzip m4 \
+        sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen \
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
@@ -29,8 +28,9 @@ ENV LC_ALL en_US.UTF-8
 
 COPY --chown=root:root etc/apt/sources.list /etc/apt/sources.list
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 # this add repository
-RUN bash -c "$(wget -O --progress=dot:giga - https://apt.llvm.org/llvm.sh)" && apt-get clean
+RUN bash -c "$(wget --progress=dot:giga -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install neovim nightly
 RUN git clone https://github.com/neovim/neovim neovim \
@@ -40,7 +40,6 @@ USER $_USER
 WORKDIR /home/$_USER
 
 # dotfiles, nvm, rust, vimrc
-SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 # hadolint ignore=DL4001
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
