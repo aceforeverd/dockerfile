@@ -12,8 +12,8 @@ COPY new_user.sh .
 # deps, llvm, locale, neovim
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get full-upgrade -y \
-    && apt-get install --no-install-recommends -y build-essential git bash-completion fish zsh tmux vim sudo \
-        curl wget lsb-release software-properties-common python3-pip procps \
+    && apt-get install --no-install-recommends -y build-essential git bash-completion fish tmux vim sudo \
+        curl wget lsb-release software-properties-common procps \
         apt-transport-https ca-certificates universal-ctags global locales gnupg \
         sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
@@ -43,13 +43,13 @@ WORKDIR /home/$_USER
 # hadolint ignore=DL4001,DL4006
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && mkdir -p "$HOME/.ssh" \
     && curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish \
     && /usr/bin/fish -c 'fisher update' \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
-    && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache fd-find' \
+    && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache fd-find du-dust' \
     && /usr/bin/fish -c 'cargo cache -a' \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
