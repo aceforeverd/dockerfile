@@ -34,7 +34,8 @@ RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -
 
 # install neovim nightly
 RUN git clone https://github.com/neovim/neovim neovim \
-    && make -C neovim install CMAKE_BUILD_TYPE=RelWithDebInfo
+    && make -C neovim install CMAKE_BUILD_TYPE=RelWithDebInfo \
+    && rm -rf neovim
 
 USER $_USER
 WORKDIR /home/$_USER
