@@ -40,14 +40,14 @@ RUN git clone https://github.com/neovim/neovim neovim \
 USER $_USER
 WORKDIR /home/$_USER
 
-# dotfiles, nvm, rust, vimrc
+# dotfiles, n, rust, vimrc
 # hadolint ignore=DL4001,DL4006
 RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && .dotfiles/setup.sh \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && mkdir -p "$HOME/.ssh" \
     && curl -sL https://git.io/fisher --create-dir -o ~/.config/fish/functions/fisher.fish \
     && /usr/bin/fish -c 'fisher update' \
+    && /usr/bin/fish -c 'curl -L https://git.io/n-install | bash -s -- -y' \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
     && /usr/bin/fish -c 'cargo install git-delta ripgrep code-minimap bat cargo-cache fd-find du-dust zoxide' \
@@ -55,7 +55,6 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
     && git clone https://github.com/aceforeverd/vimrc.git "$HOME/.config/nvim" \
-    && /usr/bin/fish -c "nvm install lts/gallium;and npm install -g yarn" \
     && rm -rf "$HOME/.cache" "$HOME/.npm"
 
 ENTRYPOINT ["/usr/bin/fish"]
