@@ -14,7 +14,7 @@ COPY new_user.sh .
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y build-essential git bash-completion tmux vim sudo \
-        curl wget lsb-release software-properties-common procps \
+        curl wget lsb-release software-properties-common procps libssl-dev libssh-dev libgit2-dev \
         apt-transport-https ca-certificates universal-ctags global locales gnupg \
         sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
