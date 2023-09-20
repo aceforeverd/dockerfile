@@ -1,7 +1,7 @@
 ARG _USER=ace
 ARG _PASSWD=helloworld
 
-FROM debian:bullseye
+FROM debian:bookworm
 ARG _USER
 ARG _PASSWD
 
@@ -15,14 +15,10 @@ COPY new_user.sh .
 RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y build-essential git bash-completion tmux vim sudo \
         curl wget lsb-release software-properties-common procps libssl-dev libssh-dev libgit2-dev \
-        apt-transport-https ca-certificates universal-ctags global locales gnupg openssh-client \
+        apt-transport-https ca-certificates universal-ctags global locales gnupg fish openssh-client \
         sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
-    && bash -o pipefail -c "echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | tee /etc/apt/sources.list.d/shells:fish:release:3.list" \
-    && bash -o pipefail -c "curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null" \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y fish \
     && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
