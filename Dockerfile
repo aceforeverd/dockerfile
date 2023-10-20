@@ -14,14 +14,12 @@ COPY new_user.sh .
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y build-essential git bash-completion tmux vim sudo \
-        curl wget lsb-release software-properties-common procps libssl-dev libssh-dev libgit2-dev \
+        curl wget lsb-release software-properties-common procps libssl-dev libssh-dev libgit2-dev less \
         apt-transport-https ca-certificates universal-ctags global locales gnupg fish openssh-client \
         sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
-    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -29,7 +27,14 @@ ENV LC_ALL en_US.UTF-8
 
 # this add repository
 # hadolint ignore=DL3047
-RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
+# workaround, ref https://github.com/llvm/llvm-project/issues/62475
+RUN set -e && \
+    echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-17 main" > /etc/apt/sources.list.d/apt.llvm.org.list && \
+    wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key |  tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc && \
+    apt-get update && apt-get install -y clang-17 lldb-17 lld-17 clangd-17 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # install neovim nightly
 RUN git clone https://github.com/neovim/neovim neovim \
