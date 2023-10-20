@@ -19,7 +19,8 @@ RUN apt-get update && apt-get full-upgrade -y \
         sqlite3 libsqlite3-dev cmake ninja-build gettext libtool-bin unzip m4 doxygen pkg-config autoconf automake\
     && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
-    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh
+    && ./new_user.sh "$_USER" "$_PASSWD" && rm new_user.sh \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -29,6 +30,7 @@ ENV LC_ALL en_US.UTF-8
 # hadolint ignore=DL3047
 # RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
 # workaround, ref https://github.com/llvm/llvm-project/issues/62475
+# hadolint ignore=DL4006,DL3008,DL3015
 RUN set -e && \
     echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-17 main" > /etc/apt/sources.list.d/apt.llvm.org.list && \
     wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key |  tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc && \
