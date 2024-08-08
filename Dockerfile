@@ -28,13 +28,10 @@ ENV LC_ALL en_US.UTF-8
 
 # this add repository
 # hadolint ignore=DL3047
-# RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && apt-get clean && rm -rf /var/lib/apt/lists/*
-# workaround, ref https://github.com/llvm/llvm-project/issues/62475
-# hadolint ignore=DL4006,DL3008,DL3015
-RUN set -e && \
-    echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-17 main" > /etc/apt/sources.list.d/apt.llvm.org.list && \
-    wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key |  tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc && \
-    apt-get update && apt-get install -y clang-17 lldb-17 lld-17 clangd-17 && \
+RUN set -ex && \
+    wget https://apt.llvm.org/llvm.sh && \
+    chmod +x llvm.sh && \
+    ./llvm.sh 18 all && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
