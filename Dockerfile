@@ -37,8 +37,7 @@ RUN set -ex && \
 
 # install neovim nightly
 RUN git clone https://github.com/neovim/neovim neovim \
-    && make -C neovim install CMAKE_BUILD_TYPE=RelWithDebInfo \
-    && rm -rf neovim
+    && make -C neovim install CMAKE_BUILD_TYPE=RelWithDebInfo
 
 USER $_USER
 WORKDIR /home/$_USER
@@ -53,7 +52,7 @@ RUN git clone https://github.com/aceforeverd/dotfiles.git .dotfiles \
     && /usr/bin/fish -c 'curl -L https://git.io/n-install | bash -s -- -y' \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c rust-src \
     && /usr/bin/fish -c "fish_user_paths_add ~/.cargo/bin" \
-    && /usr/bin/fish -c 'cargo install git-delta ripgrep bat cargo-cache cargo-update fd-find du-dust zoxide lsd ast-grep' \
+    && /usr/bin/fish -c 'cargo install git-delta ripgrep bat cargo-cache cargo-update fd-find du-dust zoxide lsd ast-grep just' \
     && /usr/bin/fish -c 'cargo cache -a' \
     && mkdir -p ~/.config/fish/completions \
     && /usr/bin/fish -c 'rustup completions fish > ~/.config/fish/completions/rustup.fish' \
