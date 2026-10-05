@@ -1,7 +1,7 @@
 ARG _USER=ace
 ARG _PASSWD=helloworld
 
-FROM debian:bookworm
+FROM debian:13
 ARG _USER
 ARG _PASSWD
 
