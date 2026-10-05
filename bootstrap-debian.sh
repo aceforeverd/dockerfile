@@ -77,7 +77,7 @@ home_setup() {
   rustup completions fish > "$HOME/.config/fish/completions/rustup.fish"
   cargo install git-delta ripgrep bat cargo-cache cargo-update fd-find du-dust zoxide lsd ast-grep just
 
-  curl -sL https://git.io/fisher --create-dir -o "$HOME/.config/fish/functions/fisher.fish"
+  curl -sL https://git.io/fisher --create-dirs -o "$HOME/.config/fish/functions/fisher.fish"
 
   fish -c "fish_user_paths_add ~/.cargo/bin"
 
